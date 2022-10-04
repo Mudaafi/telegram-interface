@@ -1,0 +1,36 @@
+import type { TeleResponse, TeleInlineKeyboard, TeleMessageEntities, TeleBotCommand, TeleBotCommandScope, ParseMode, TelePostOptions, TeleReplyMarkup, TeleIdType, TeleLogger, TeleInvoice, TelePrice, TeleShippingOption } from './@types/telegram-types';
+export declare let LOGGER: TeleLogger;
+export declare class Telegram {
+    bot_key: string;
+    parse_mode: ParseMode;
+    constructor(bot_key: string, parse_mode?: ParseMode);
+    sendMessage(chat_id: TeleIdType, text: string): Promise<TeleResponse>;
+    answerCallbackQuery(callback_query_id: string, text: string, show_alert: boolean): Promise<TeleResponse>;
+    deleteMessage(chat_id: number, message_id: number): Promise<TeleResponse>;
+    updateCaption(chat_id: TeleIdType, message_id: number, caption: string, reply_markup?: TeleReplyMarkup): Promise<TeleResponse>;
+    updateMessage(chat_id: number, message_id: number, text: string, reply_markup?: TeleReplyMarkup): Promise<TeleResponse>;
+    sendPhoto(chat_id: TeleIdType, photo_file_id: string, caption: string, reply_markup?: TeleReplyMarkup): Promise<TeleResponse>;
+    setMyCommands(commands: Array<TeleBotCommand>, scope: TeleBotCommandScope, language_code?: string): Promise<TeleResponse>;
+    updateMedia(chat_id: TeleIdType, message_id: number, caption: string, media_type: string, media_id: string, reply_markup?: TeleReplyMarkup): Promise<TeleResponse>;
+    sendDocument(chat_id: TeleIdType, document_id: string, caption: string, reply_markup?: TeleReplyMarkup): Promise<unknown>;
+    sendInvoice(provider_token: string, chat_id: number | string, invoice: TeleInvoice, payload: string, prices: TelePrice[], photo_url: string, is_flexible?: boolean, need_name?: boolean, need_email?: boolean, need_phone_number?: boolean, need_shipping_address?: boolean, send_phone_number_to_provider?: boolean, send_email_to_provider?: boolean, provider_data?: string, reply_markup?: TeleReplyMarkup, start_parameter?: string | null): Promise<unknown>;
+    answerShippingQuery(shipping_query_id: string, ok: boolean, shipping_options?: TeleShippingOption[], error_message?: string): Promise<unknown>;
+    answerPreCheckoutQuery(pre_checkout_query_id: string, ok: boolean, error_message?: string): Promise<unknown>;
+    genInlineButtons(buttonArr: Array<Array<string>>, callbackArr: Array<string> | Array<Array<string>>): TeleInlineKeyboard;
+    genInlineUrlButtons(buttonArr: Array<Array<string>>, callbackArr: Array<string> | Array<Array<string>>, urlArr: Array<string> | Array<Array<string>>): TeleInlineKeyboard;
+    convertToHTML(textMsg: string, formatting?: [TeleMessageEntities]): string;
+    embedMetadata(metadata: string | object, text: string): string;
+    extractMetadata(text: string): string | object | null;
+}
+export declare function sendMessage(bot_key: string, chat_id: number | string, text: string, reply_markup?: TeleReplyMarkup, options?: TelePostOptions): Promise<TeleResponse>;
+export declare function answerCallbackQuery(bot_key: string, callback_query_id: string, text: string, show_alert: boolean): Promise<TeleResponse>;
+export declare function deleteMessage(bot_key: string, chat_id: number, message_id: number): Promise<TeleResponse>;
+export declare function updateCaption(bot_key: string, chat_id: TeleIdType, message_id: number, caption: string, reply_markup?: TeleReplyMarkup, options?: TelePostOptions): Promise<TeleResponse>;
+export declare function updateMessage(bot_key: string, chat_id: number, message_id: number, text: string, reply_markup?: TeleReplyMarkup, options?: TelePostOptions): Promise<TeleResponse>;
+export declare function sendPhoto(bot_key: string, chat_id: TeleIdType, photo_file_id: string, caption: string, reply_markup?: TeleReplyMarkup, options?: TelePostOptions): Promise<TeleResponse>;
+export declare function setMyCommands(bot_key: string, commands: Array<TeleBotCommand>, scope: TeleBotCommandScope, language_code?: string): Promise<TeleResponse>;
+export declare function updateMedia(bot_key: string, chat_id: TeleIdType, message_id: number, caption: string, media_type: string, media_id: string, reply_markup?: TeleReplyMarkup, options?: TelePostOptions): Promise<TeleResponse>;
+export declare function sendDocument(bot_key: string, chat_id: TeleIdType, document_id: string, caption: string, reply_markup?: TeleReplyMarkup, options?: TelePostOptions): Promise<unknown>;
+export declare function sendInvoice(bot_key: string, provider_token: string, chat_id: number | string, invoice: TeleInvoice, payload: string, prices: TelePrice[], photo_url: string, is_flexible?: boolean, need_name?: boolean, need_email?: boolean, need_phone_number?: boolean, need_shipping_address?: boolean, send_phone_number_to_provider?: boolean, send_email_to_provider?: boolean, provider_data?: string, reply_markup?: TeleReplyMarkup, start_parameter?: string | null): Promise<unknown>;
+export declare function answerShippingQuery(bot_key: string, shipping_query_id: string, ok: boolean, shipping_options?: TeleShippingOption[], error_message?: string): Promise<unknown>;
+export declare function answerPreCheckoutQuery(bot_key: string, pre_checkout_query_id: string, ok: boolean, error_message?: string): Promise<unknown>;

@@ -1,0 +1,35 @@
+{
+  "name": "telegram-interface",
+  "version": "0.1.0",
+  "description": "TypeScript Interface for Telegram Bot API",
+  "types": "lib/telegram-interface.d.ts",
+  "main": "lib/telegram-interface",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rm -r ./lib/* && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mudaafi/telegram-interface.git"
+  },
+  "keywords": [
+    "Telegram",
+    "Telegram-Bot-API",
+    "TypeScript"
+  ],
+  "author": "Ahmad Mudaafi' <Mudaafi@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mudaafi/telegram-interface/issues"
+  },
+  "homepage": "https://github.com/Mudaafi/telegram-interface#readme",
+  "devDependencies": {
+    "@types/node": "^18.8.1",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
