@@ -32,7 +32,6 @@ tele.sendMessage(chat_id, msg)
 import { sendMessage, genInlineButtons } from 'telegram-interface'
 var btns = genInlineButtons([['1st row']['2nd row']], [[callback1], [callback2]])
 
-
 sendMessage(botkey, chatId, text)
   .then(...)
   .catch(...)
@@ -41,3 +40,33 @@ sendMessage(bot_key, chat_id, text, btns, {parse_mode: 'MarkdownV2'})
   .catch(...)
 
 ```
+
+# Notes for myself
+
+Yes, I know this is a public facing-repo.
+
+## Workflow
+
+Edits can be done normally and committed locally normally. If you're intending to publish to npm, don't push to remote just yet.
+
+Also, I'm not quite sure why I committed the lib folder but it is what it is. I'll prob take it out in the future.
+
+To publish to NPM, you have to have a clean git working directory. Do not build first. The following commands should do it.
+
+Mark the current git HEAD as a new version. `patch` is used here for small changes, `minor` for new features/functonality, `major` for overhauls
+`npm version patch`
+
+Login to NPM
+`npm login`
+
+Publish to NPM
+`npm publish`
+
+Push new package json to GitHub
+`git push`
+
+## Todos
+
+[ ] - Why is the lib folder on GitHub? Take it out.
+[ ] - Workflow should be branch -> commits -> PR -> Merge -> Pull master to version and npm publish and push back to master
+[ ] - Why pull master when you can just github actions to publish to npm?
