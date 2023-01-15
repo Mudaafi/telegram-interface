@@ -377,6 +377,10 @@ export function convertError(err: AxiosError<TeleError>): TeleError {
       return { ok: false, error_code: 7, description: ERROR_CODES[7] }
 
     default:
-      return { ok: false, error_code: 0, description: ERROR_CODES[0] }
+      return {
+        ok: false,
+        error_code: 0,
+        description: `Error ${err.response.data.error_code}: ${err.response.data.description}`,
+      }
   }
 }
