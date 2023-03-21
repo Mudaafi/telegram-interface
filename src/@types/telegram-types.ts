@@ -206,7 +206,7 @@ export interface TeleInlineKeyboardButton {
   switch_inline_query?: string
   switch_inline_query_current_chat?: string
   // callback_game?: CallbackGame
-  pay: boolean
+  pay?: boolean
 }
 
 export interface TeleReplyKeyboard {
