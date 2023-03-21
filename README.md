@@ -67,6 +67,6 @@ Push new package json to GitHub
 
 ## Todos
 
-[ ] - Why is the lib folder on GitHub? Take it out.
-[ ] - Workflow should be branch -> commits -> PR -> Merge -> Pull master to version and npm publish and push back to master
-[ ] - Why pull master when you can just github actions to publish to npm?
+- [ ] Why is the lib folder on GitHub? Take it out.
+- [ ] Workflow should be branch -> commits -> PR -> Merge -> Pull master to version and npm publish and push back to master
+- [ ] Why pull master when you can just github actions to publish to npm?
