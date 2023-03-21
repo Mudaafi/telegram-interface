@@ -18,7 +18,7 @@ export interface TeleResponse {
     chat: TeleChat
     date: number // Unix Time
     text: string
-    entities: [TeleMessageEntities]
+    entities: TeleMessageEntities[]
   }
 }
 
@@ -76,13 +76,13 @@ export interface TeleMessage {
   author_signature?: string
   text?: string
   reply_markup?: TeleInlineKeyboard
-  entities?: [TeleMessageEntities]
-  new_chat_members?: [TeleUser]
+  entities?: TeleMessageEntities[]
+  new_chat_members?: TeleUser[]
   left_chat_member?: TeleUser
   caption?: string
-  caption_entities?: [TeleMessageEntities]
+  caption_entities?: TeleMessageEntities[]
   document?: TeleDocument
-  photo?: [TelePhotoSize]
+  photo?: TelePhotoSize[]
   successful_payment?: TeleReceipt
 
   // Below are not yet used and so not implemented
@@ -100,7 +100,7 @@ export interface TeleMessage {
   venue?: TeleVenue
   location?: TeleLocation
   new_chat_title?: string
-  new_chat_photo?: [PhotoSize]
+  new_chat_photo?: PhotoSize[]
   delete_chat_photo?: boolean
   group_chat_created?: boolean
   supergroup_chat_created?: boolean
@@ -195,7 +195,7 @@ export interface ChatInviteLink {
 }
 
 export interface TeleInlineKeyboard {
-  inline_keyboard: [[TeleInlineKeyboardButton]]
+  inline_keyboard: TeleInlineKeyboardButton[][]
 }
 
 export interface TeleInlineKeyboardButton {
