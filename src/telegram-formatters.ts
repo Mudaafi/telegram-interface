@@ -86,7 +86,7 @@ export function genInlineUrlButtons(
  */
 export function convertToHTML(
   textMsg: string,
-  formatting?: [TeleMessageEntities],
+  formatting?: TeleMessageEntities[],
 ) {
   if (!formatting) return textMsg
   // Converts from array of objects to array of arrays
@@ -178,8 +178,8 @@ export function embedMetadata(metadata: string | object, text: string) {
   return text
 }
 
-export function extractMetadata<T = Record<string, any>>(text: string): T | null {
-  var htmlText = convertToHTML(text)
+export function extractMetadata<T = Record<string, any>>(text: string, formatting: TeleMessageEntities[]): T | null {
+  var htmlText = convertToHTML(text, formatting)
   var res = htmlText.split('tg://metadata/')[1]
   if (!res) return null
   res = res.split('/end')[0]
