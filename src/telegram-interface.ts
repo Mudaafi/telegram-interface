@@ -237,7 +237,7 @@ export class Telegram {
     return genInlineUrlButtons(buttonArr, callbackArr, urlArr)
   }
 
-  convertToHTML(textMsg: string, formatting?: [TeleMessageEntities]) {
+  convertToHTML(textMsg: string, formatting?: TeleMessageEntities[]) {
     return convertToHTML(textMsg, formatting)
   }
 
@@ -245,8 +245,8 @@ export class Telegram {
     return embedMetadata(metadata, text)
   }
 
-  extractMetadata(text: string) {
-    return extractMetadata(text)
+  extractMetadata<T = Record<string, any>>(text: string, formatting: TeleMessageEntities[]) {
+    return extractMetadata<T>(text, formatting)
   }
 }
 
