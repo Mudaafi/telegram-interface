@@ -178,7 +178,7 @@ export function embedMetadata(metadata: string | object, text: string) {
   return text
 }
 
-export function extractMetadata(text: string): string | object | null {
+export function extractMetadata<T = Record<string, any>>(text: string): T | null {
   var htmlText = convertToHTML(text)
   var res = htmlText.split('tg://metadata/')[1]
   if (!res) return null
@@ -197,5 +197,5 @@ export function extractMetadata(text: string): string | object | null {
         )
     }
   })
-  return obj
+  return obj as T
 }
