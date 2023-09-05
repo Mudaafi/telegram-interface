@@ -69,7 +69,7 @@ export interface TeleMessage {
   forward_signature?: string
   forward_sender_name?: string
   forward_date?: number // Unix time
-  reply_to_message: TeleMessage
+  reply_to_message?: TeleMessage
   via_bot?: TeleUser
   edit_date?: number
   media_group_id?: string
