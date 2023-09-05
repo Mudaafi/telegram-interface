@@ -6,7 +6,7 @@ export type TeleIdType = string | number
 export type ParseMode = 'MarkdownV2' | 'HTML'
 export interface TelePostOptions {
   parse_mode?: ParseMode,
-  reply_to_message_id?: string
+  reply_to_message_id?: number
 }
 export type TeleReplyMarkup = TeleInlineKeyboard | TeleReplyKeyboard
 
