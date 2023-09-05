@@ -5,7 +5,8 @@ export type TeleLogger = 'VERBOSE' | 'ERRORS'
 export type TeleIdType = string | number
 export type ParseMode = 'MarkdownV2' | 'HTML'
 export interface TelePostOptions {
-  parse_mode: ParseMode
+  parse_mode?: ParseMode,
+  reply_to_message_id?: string
 }
 export type TeleReplyMarkup = TeleInlineKeyboard | TeleReplyKeyboard
 
