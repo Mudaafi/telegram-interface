@@ -272,7 +272,7 @@ export async function sendMessage(
       .post<TeleResponse>(`${TELE_API}${bot_key}/sendMessage`, {
         chat_id,
         text,
-        parse_mode: !options ? 'HTML' : options.parse_mode,
+        parse_mode: !options || !options.parse_mode ? 'HTML' : options.parse_mode,
         reply_to_message_id: options?.reply_to_message_id,
         allow_sending_without_reply: !!options?.reply_to_message_id ? null : true,
         reply_markup,
