@@ -11,7 +11,7 @@ Full documentation coming soon.
 
 # Usage
 
-There are two main ways to use this library.
+There are two main ways to use this library: 1) Via the Wrapper Class or 2) Via the Functions
 
 ## Wrapper Class
 
@@ -43,7 +43,7 @@ sendMessage(bot_key, chat_id, text, btns, {parse_mode: 'MarkdownV2'})
 
 # Notes for myself
 
-Yes, I know this is a public facing-repo.
+Yes, I know this is a public-facing repo.
 
 ## Workflow
 
