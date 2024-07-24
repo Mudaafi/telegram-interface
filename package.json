@@ -1,6 +1,6 @@
 {
   "name": "telegram-interface",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "TypeScript Interface for Telegram Bot API",
   "types": "lib/telegram-interface.d.ts",
   "main": "lib/telegram-interface",
