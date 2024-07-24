@@ -53,7 +53,7 @@ Also, I'm not quite sure why I committed the lib folder but it is what it is. I'
 
 To publish to NPM, you have to have a clean git working directory. Do not build first. The following commands should do it.
 
-Mark the current git HEAD as a new version. `patch` is used here for small changes, `minor` for new features/functonality, `major` for overhauls
+Mark the current git HEAD as a new version. `patch` is used here for small changes, `minor` for new features/functionality, `major` for overhauls
 `npm version patch -m <COMMIT_MESSAGE>`
 
 Login to NPM
