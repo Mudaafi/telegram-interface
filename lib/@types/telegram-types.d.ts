@@ -3,7 +3,8 @@ export declare type TeleLogger = 'VERBOSE' | 'ERRORS';
 export declare type TeleIdType = string | number;
 export declare type ParseMode = 'MarkdownV2' | 'HTML';
 export interface TelePostOptions {
-    parse_mode: ParseMode;
+    parse_mode?: ParseMode;
+    reply_to_message_id?: number;
 }
 export declare type TeleReplyMarkup = TeleInlineKeyboard | TeleReplyKeyboard;
 export interface TeleResponse {
@@ -14,7 +15,7 @@ export interface TeleResponse {
         chat: TeleChat;
         date: number;
         text: string;
-        entities: [TeleMessageEntities];
+        entities: TeleMessageEntities[];
     };
 }
 export interface TeleError {
@@ -49,20 +50,20 @@ export interface TeleMessage {
     forward_signature?: string;
     forward_sender_name?: string;
     forward_date?: number;
-    reply_to_message: TeleMessage;
+    reply_to_message?: TeleMessage;
     via_bot?: TeleUser;
     edit_date?: number;
     media_group_id?: string;
     author_signature?: string;
     text?: string;
     reply_markup?: TeleInlineKeyboard;
-    entities?: [TeleMessageEntities];
-    new_chat_members?: [TeleUser];
+    entities?: TeleMessageEntities[];
+    new_chat_members?: TeleUser[];
     left_chat_member?: TeleUser;
     caption?: string;
-    caption_entities?: [TeleMessageEntities];
+    caption_entities?: TeleMessageEntities[];
     document?: TeleDocument;
-    photo?: [TelePhotoSize];
+    photo?: TelePhotoSize[];
     successful_payment?: TeleReceipt;
 }
 export interface TeleUser {
@@ -141,7 +142,7 @@ export interface ChatInviteLink {
     member_limit?: number;
 }
 export interface TeleInlineKeyboard {
-    inline_keyboard: [[TeleInlineKeyboardButton]];
+    inline_keyboard: TeleInlineKeyboardButton[][];
 }
 export interface TeleInlineKeyboardButton {
     text: string;
@@ -149,7 +150,7 @@ export interface TeleInlineKeyboardButton {
     url?: string;
     switch_inline_query?: string;
     switch_inline_query_current_chat?: string;
-    pay: boolean;
+    pay?: boolean;
 }
 export interface TeleReplyKeyboard {
     keyboard: Array<Array<TeleKeyboardButton>>;
@@ -247,6 +248,10 @@ export interface TeleReceipt {
     order_info?: TeleOrderInfo;
     telegram_payment_charge_id: string;
     provider_payment_charge_id: string;
+}
+export interface TeleReaction {
+    type: 'emoji';
+    emoji: '👍' | '👎' | '❤' | '🔥' | '🥰' | '👏' | '😁' | '🤔' | '🤯' | '😱' | '🤬' | '😢' | '🎉' | '🤩' | '🤮' | '💩' | '🙏' | '👌' | '🕊' | '🤡' | '🥱' | '🥴' | '😍' | '🐳' | '❤‍🔥' | '🌚' | '🌭' | '💯' | '🤣' | '⚡' | '🍌' | '🏆' | '💔' | '🤨' | '😐' | '🍓' | '🍾' | '💋' | '🖕' | '😈' | '😴' | '😭' | '🤓' | '👻' | '👨‍💻' | '👀' | '🎃' | '🙈' | '😇' | '😨' | '🤝' | '✍' | '🤗' | '🫡' | '🎅' | '🎄' | '☃' | '💅' | '🤪' | '🗿' | '🆒' | '💘' | '🙉' | '🦄' | '😘' | '💊' | '🙊' | '😎' | '👾' | '🤷‍♂' | '🤷' | '🤷‍♀' | '😡';
 }
 export declare type TeleBotCommandScopeType = 'default' | 'all_private_chats' | 'all_group_chats' | 'all_chat_administrators' | 'chat' | 'chat_administrators' | 'chat_member';
 export declare const ERROR_CODES: {

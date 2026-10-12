@@ -22,7 +22,7 @@ var tele = new Telegram(bot_key)
 tele.parse_mode = 'HTML' // 'HTML' is the default. Can also use 'MarkdownV2'.
 
 tele.sendMessage(chat_id, msg)
-  .then((res) => console.log(res.data))
+  .then((res) => console.log(res))
   .catch((err) => console.log(err))
 ```
 
