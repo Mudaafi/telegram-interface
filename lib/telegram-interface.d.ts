@@ -1,4 +1,4 @@
-import type { TeleResponse, TeleInlineKeyboard, TeleMessageEntities, TeleBotCommand, TeleBotCommandScope, ParseMode, TelePostOptions, TeleReplyMarkup, TeleIdType, TeleLogger, TeleInvoice, TelePrice, TeleShippingOption, TeleReaction } from './@types/telegram-types';
+import type { TeleResponse, TeleInlineKeyboard, TeleMessageEntities, TeleBotCommand, TeleBotCommandScope, ParseMode, TelePostOptions, TeleReplyMarkup, TeleIdType, TeleLogger, TeleInvoice, TelePrice, TeleShippingOption, TeleReaction, TeleChatAction } from './@types/telegram-types';
 export declare let LOGGER: TeleLogger;
 export declare class Telegram {
     bot_key: string;
@@ -8,7 +8,9 @@ export declare class Telegram {
     answerCallbackQuery(callback_query_id: string, text: string, show_alert: boolean): Promise<TeleResponse>;
     deleteMessage(chat_id: TeleIdType, message_id: number): Promise<TeleResponse>;
     updateCaption(chat_id: TeleIdType, message_id: number, caption: string, reply_markup?: TeleReplyMarkup): Promise<TeleResponse>;
-    updateMessage(chat_id: TeleIdType, message_id: number, text: string, reply_markup?: TeleReplyMarkup): Promise<TeleResponse>;
+    updateMessage(chat_id: TeleIdType, message_id: number, text: string, reply_markup?: TeleReplyMarkup, options?: TelePostOptions): Promise<TeleResponse>;
+    sendChatAction(chat_id: TeleIdType, action?: TeleChatAction): Promise<TeleResponse>;
+    sendMessageDraft(chat_id: number, draft_id: number, text?: string): Promise<TeleResponse>;
     sendPhoto(chat_id: TeleIdType, photo_file_id: string, caption: string, reply_markup?: TeleReplyMarkup): Promise<TeleResponse>;
     setMyCommands(commands: Array<TeleBotCommand>, scope: TeleBotCommandScope, language_code?: string): Promise<TeleResponse>;
     updateMedia(chat_id: TeleIdType, message_id: number, caption: string, media_type: string, media_id: string, reply_markup?: TeleReplyMarkup): Promise<TeleResponse>;
@@ -36,3 +38,7 @@ export declare function sendInvoice(bot_key: string, provider_token: string, cha
 export declare function answerShippingQuery(bot_key: string, shipping_query_id: string, ok: boolean, shipping_options?: TeleShippingOption[], error_message?: string): Promise<unknown>;
 export declare function answerPreCheckoutQuery(bot_key: string, pre_checkout_query_id: string, ok: boolean, error_message?: string): Promise<unknown>;
 export declare function setMessageReaction(bot_key: string, chat_id: number | string, message_id: number, reaction: Array<TeleReaction>, isBig?: boolean): Promise<TeleResponse>;
+export declare function sendChatAction(bot_key: string, chat_id: TeleIdType, action?: TeleChatAction): Promise<TeleResponse>;
+export declare function sendMessageDraft(bot_key: string, chat_id: number, draft_id: number, text?: string, parse_mode?: ParseMode): Promise<TeleResponse>;
+export * from './telegram-formatters';
+export * from './@types/telegram-types';

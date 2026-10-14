@@ -5,7 +5,9 @@ export declare type ParseMode = 'MarkdownV2' | 'HTML';
 export interface TelePostOptions {
     parse_mode?: ParseMode;
     reply_to_message_id?: number;
+    disable_link_preview?: boolean;
 }
+export declare type TeleChatAction = 'typing' | 'upload_photo' | 'record_video' | 'upload_video' | 'record_voice' | 'upload_voice' | 'upload_document' | 'choose_sticker' | 'find_location' | 'record_video_note' | 'upload_video_note';
 export declare type TeleReplyMarkup = TeleInlineKeyboard | TeleReplyKeyboard;
 export interface TeleResponse {
     ok: boolean;

@@ -14,6 +14,7 @@ import type {
   TelePrice,
   TeleShippingOption,
   TeleReaction,
+  TeleChatAction,
 } from './@types/telegram-types'
 import { convertError } from './@types/telegram-types'
 import {
@@ -32,7 +33,10 @@ export let LOGGER =
 
 // Class-based Interface
 export class Telegram {
-  constructor(public bot_key: string, public parse_mode: ParseMode = 'HTML') {}
+  constructor(
+    public bot_key: string,
+    public parse_mode: ParseMode = 'HTML',
+  ) {}
 
   async sendMessage(
     chat_id: TeleIdType,
@@ -84,6 +88,7 @@ export class Telegram {
     message_id: number,
     text: string,
     reply_markup: TeleReplyMarkup = {} as TeleInlineKeyboard,
+    options?: TelePostOptions,
   ) {
     return updateMessage(
       this.bot_key,
@@ -91,7 +96,33 @@ export class Telegram {
       message_id,
       text,
       reply_markup,
-      { parse_mode: this.parse_mode },
+      { ...options, parse_mode: options?.parse_mode ?? this.parse_mode },
+    )
+  }
+
+  /**
+   * Shows a status such as "typing..." in the chat for about 5 seconds, or until the bot's next message
+   * @param chat_id Chat to show it in
+   * @param action What the bot is doing (default 'typing')
+   */
+  async sendChatAction(chat_id: TeleIdType, action: TeleChatAction = 'typing') {
+    return sendChatAction(this.bot_key, chat_id, action)
+  }
+
+  /**
+   * Streams a draft of a message being written. It is shown for about 30 seconds, or until the
+   * bot's next message, and is not kept. Empty text shows Telegram's "Thinking..." placeholder.
+   * @param chat_id Private chat to show it in
+   * @param draft_id Number. Drafts with the same id replace each other with an animation
+   * @param text Text so far (default: empty, the placeholder)
+   */
+  async sendMessageDraft(chat_id: number, draft_id: number, text = '') {
+    return sendMessageDraft(
+      this.bot_key,
+      chat_id,
+      draft_id,
+      text,
+      this.parse_mode,
     )
   }
 
@@ -269,7 +300,10 @@ export class Telegram {
     return embedMetadata(metadata, text)
   }
 
-  extractMetadata<T = Record<string, any>>(text: string, formatting: TeleMessageEntities[]) {
+  extractMetadata<T = Record<string, any>>(
+    text: string,
+    formatting: TeleMessageEntities[],
+  ) {
     return extractMetadata<T>(text, formatting)
   }
 }
@@ -296,9 +330,15 @@ export async function sendMessage(
       .post<TeleResponse>(`${TELE_API}${bot_key}/sendMessage`, {
         chat_id,
         text,
-        parse_mode: !options || !options.parse_mode ? 'HTML' : options.parse_mode,
+        parse_mode:
+          !options || !options.parse_mode ? 'HTML' : options.parse_mode,
         reply_to_message_id: options?.reply_to_message_id,
-        allow_sending_without_reply: !!options?.reply_to_message_id ? null : true,
+        allow_sending_without_reply: !!options?.reply_to_message_id
+          ? null
+          : true,
+        link_preview_options: options?.disable_link_preview
+          ? { is_disabled: true }
+          : undefined,
         reply_markup,
       })
       .then((res) => {
@@ -437,6 +477,9 @@ export async function updateMessage(
         message_id,
         text,
         parse_mode: !options ? 'HTML' : options.parse_mode,
+        link_preview_options: options?.disable_link_preview
+          ? { is_disabled: true }
+          : undefined,
         reply_markup,
       })
       .then((res) => {
@@ -766,7 +809,7 @@ export async function setMessageReaction(
               `Message failed to be reacted to (chat_id: ${chat_id}, msg_id: ${message_id})`,
             )
           }
-    
+
         resolve(res.data)
       })
       .catch((err) => {
@@ -774,3 +817,71 @@ export async function setMessageReaction(
       })
   })
 }
+
+/**
+ * Shows a status such as "typing..." in a chat for about 5 seconds, or until the bot's next message
+ * @param bot_key string
+ * @param chat_id integer | string
+ * @param action What the bot is doing (default 'typing')
+ */
+export async function sendChatAction(
+  bot_key: string,
+  chat_id: TeleIdType,
+  action: TeleChatAction = 'typing',
+) {
+  return new Promise<TeleResponse>((resolve, reject) => {
+    axios
+      .post<TeleResponse>(`${TELE_API}${bot_key}/sendChatAction`, {
+        chat_id,
+        action,
+      })
+      .then((res) => {
+        if (LOGGER == 'VERBOSE')
+          console.log(`Chat action sent (chat_id: ${chat_id}, ${action})`)
+        resolve(res.data)
+      })
+      .catch((err) => {
+        reject(convertError(err))
+      })
+  })
+}
+
+/**
+ * Streams a draft of a message being written to a private chat. It is shown for about 30 seconds,
+ * or until the bot's next message, and is not kept: send the finished text with sendMessage.
+ * Empty text shows Telegram's "Thinking..." placeholder.
+ * @param bot_key string
+ * @param chat_id integer, a private chat
+ * @param draft_id Non-zero integer; drafts with the same id replace each other with an animation
+ * @param text Text so far (default: empty)
+ * @param parse_mode Optional parse mode for the text
+ */
+export async function sendMessageDraft(
+  bot_key: string,
+  chat_id: number,
+  draft_id: number,
+  text = '',
+  parse_mode?: ParseMode,
+) {
+  return new Promise<TeleResponse>((resolve, reject) => {
+    axios
+      .post<TeleResponse>(`${TELE_API}${bot_key}/sendMessageDraft`, {
+        chat_id,
+        draft_id,
+        text,
+        parse_mode: text ? parse_mode : undefined,
+      })
+      .then((res) => {
+        if (LOGGER == 'VERBOSE')
+          console.log(`Draft sent (chat_id: ${chat_id}, draft_id: ${draft_id})`)
+        resolve(res.data)
+      })
+      .catch((err) => {
+        reject(convertError(err))
+      })
+  })
+}
+
+// Re-exports so that formatters and types are importable from the package root
+export * from './telegram-formatters'
+export * from './@types/telegram-types'
