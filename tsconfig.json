@@ -21,8 +21,10 @@
     "sourceMap": true,
     "declaration": true,
     "outDir": "./lib",
-    "lib": ["esnext", "ES2015", "ES2016", "DOM"]
+    "rootDir": "./src",
+    "lib": ["esnext", "ES2015", "ES2016", "DOM"],
+    "types": ["node"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/*.ts", "src/index.js"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

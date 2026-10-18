@@ -6,6 +6,7 @@ export interface TelePostOptions {
     parse_mode?: ParseMode;
     reply_to_message_id?: number;
     disable_link_preview?: boolean;
+    message_thread_id?: number;
 }
 export declare type TeleChatAction = 'typing' | 'upload_photo' | 'record_video' | 'upload_video' | 'record_voice' | 'upload_voice' | 'upload_document' | 'choose_sticker' | 'find_location' | 'record_video_note' | 'upload_video_note';
 export declare type TeleReplyMarkup = TeleInlineKeyboard | TeleReplyKeyboard;

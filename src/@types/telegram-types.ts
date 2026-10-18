@@ -8,6 +8,7 @@ export interface TelePostOptions {
   parse_mode?: ParseMode
   reply_to_message_id?: number
   disable_link_preview?: boolean
+  message_thread_id?: number
 }
 // https://core.telegram.org/bots/api#sendchataction
 export type TeleChatAction =

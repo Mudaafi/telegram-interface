@@ -316,30 +316,35 @@ export class Telegram {
  * @param chat_id
  * @param text
  * @param reply_markup
- * @param options Options for parse mode
+ * @param options Other options
  */
 export async function sendMessage(
   bot_key: string,
   chat_id: number | string,
   text: string,
   reply_markup: TeleReplyMarkup = {} as TeleInlineKeyboard,
-  options?: TelePostOptions,
+  options: TelePostOptions = {},
 ) {
   return new Promise<TeleResponse>((resolve, reject) => {
+    const {
+      parse_mode,
+      reply_to_message_id,
+      disable_link_preview,
+      ...restOptions
+    } = options
+
     axios
       .post<TeleResponse>(`${TELE_API}${bot_key}/sendMessage`, {
         chat_id,
         text,
-        parse_mode:
-          !options || !options.parse_mode ? 'HTML' : options.parse_mode,
-        reply_to_message_id: options?.reply_to_message_id,
-        allow_sending_without_reply: !!options?.reply_to_message_id
-          ? null
-          : true,
-        link_preview_options: options?.disable_link_preview
+        parse_mode: !parse_mode ? 'HTML' : parse_mode,
+        reply_to_message_id: reply_to_message_id,
+        allow_sending_without_reply: !!reply_to_message_id ? null : true,
+        link_preview_options: disable_link_preview
           ? { is_disabled: true }
           : undefined,
         reply_markup,
+        ...restOptions,
       })
       .then((res) => {
         if (LOGGER == 'VERBOSE')
