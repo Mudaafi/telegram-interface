@@ -1,4 +1,4 @@
-import type { TeleResponse, TeleInlineKeyboard, TeleMessageEntities, TeleBotCommand, TeleBotCommandScope, ParseMode, TelePostOptions, TeleReplyMarkup, TeleIdType, TeleLogger, TeleInvoice, TelePrice, TeleShippingOption, TeleReaction, TeleChatAction } from './@types/telegram-types';
+import type { TeleResponse, TeleInlineKeyboard, TeleMessageEntities, TeleBotCommand, TeleBotCommandScope, ParseMode, TelePostOptions, TeleReplyMarkup, TeleIdType, TeleLogger, TeleInvoice, TelePrice, TeleShippingOption, TeleReaction, TeleChatAction, TeleUpdate, TeleWebhookInfo, TeleWebhookOptions } from './@types/telegram-types';
 export declare let LOGGER: TeleLogger;
 export declare class Telegram {
     bot_key: string;
@@ -19,6 +19,10 @@ export declare class Telegram {
     answerShippingQuery(shipping_query_id: string, ok: boolean, shipping_options?: TeleShippingOption[], error_message?: string): Promise<unknown>;
     answerPreCheckoutQuery(pre_checkout_query_id: string, ok: boolean, error_message?: string): Promise<unknown>;
     setMessageReaction(chat_id: number | string, message_id: number, reaction: Array<TeleReaction>, isBig?: boolean): Promise<TeleResponse>;
+    getUpdates(offset?: number, timeout?: number, allowed_updates?: string[]): Promise<TeleUpdate[]>;
+    getWebhookInfo(): Promise<TeleWebhookInfo>;
+    setWebhook(url: string, secret_token?: string, options?: TeleWebhookOptions): Promise<boolean>;
+    deleteWebhook(drop_pending_updates?: boolean): Promise<boolean>;
     genInlineButtons(buttonArr: Array<Array<string>>, callbackArr: Array<string> | Array<Array<string>>): TeleInlineKeyboard;
     genInlineUrlButtons(buttonArr: Array<Array<string>>, callbackArr: Array<string> | Array<Array<string>>, urlArr: Array<string> | Array<Array<string>>): TeleInlineKeyboard;
     convertToHTML(textMsg: string, formatting?: TeleMessageEntities[]): string;
@@ -40,5 +44,9 @@ export declare function answerPreCheckoutQuery(bot_key: string, pre_checkout_que
 export declare function setMessageReaction(bot_key: string, chat_id: number | string, message_id: number, reaction: Array<TeleReaction>, isBig?: boolean): Promise<TeleResponse>;
 export declare function sendChatAction(bot_key: string, chat_id: TeleIdType, action?: TeleChatAction): Promise<TeleResponse>;
 export declare function sendMessageDraft(bot_key: string, chat_id: number, draft_id: number, text?: string, parse_mode?: ParseMode): Promise<TeleResponse>;
+export declare function getUpdates(bot_key: string, offset?: number, timeout?: number, allowed_updates?: string[]): Promise<TeleUpdate[]>;
+export declare function getWebhookInfo(bot_key: string): Promise<TeleWebhookInfo>;
+export declare function setWebhook(bot_key: string, url: string, secret_token?: string, options?: TeleWebhookOptions): Promise<boolean>;
+export declare function deleteWebhook(bot_key: string, drop_pending_updates?: boolean): Promise<boolean>;
 export * from './telegram-formatters';
 export * from './@types/telegram-types';

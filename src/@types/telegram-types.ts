@@ -23,7 +23,28 @@ export type TeleChatAction =
   | 'find_location'
   | 'record_video_note'
   | 'upload_video_note'
-export type TeleReplyMarkup = TeleInlineKeyboard | TeleReplyKeyboard
+export type TeleReplyMarkup =
+  | TeleInlineKeyboard
+  | TeleReplyKeyboard
+  | TeleForceReply
+// https://core.telegram.org/bots/api#setwebhook
+export interface TeleWebhookOptions {
+  max_connections?: number
+  allowed_updates?: string[]
+  drop_pending_updates?: boolean
+  ip_address?: string
+}
+// https://core.telegram.org/bots/api#webhookinfo
+export interface TeleWebhookInfo {
+  url: string
+  has_custom_certificate: boolean
+  pending_update_count: number
+  ip_address?: string
+  last_error_date?: number
+  last_error_message?: string
+  max_connections?: number
+  allowed_updates?: string[]
+}
 
 // -- From Telegram API
 export interface TeleResponse {
@@ -75,6 +96,7 @@ export interface TeleCallbackQuery {
 
 export interface TeleMessage {
   message_id: number
+  message_thread_id?: number // Forum topic, for supergroups with topics
   from?: TeleUser // Empty for channels
   sender_chat?: TeleChat // For channels
   date: number // Unix time
@@ -229,6 +251,13 @@ export interface TeleReplyKeyboard {
   keyboard: Array<Array<TeleKeyboardButton>>
   resize_keyboard?: boolean
   one_time_keyboard?: boolean
+  selective?: boolean
+}
+
+// Opens the user's keyboard on a reply to the message
+export interface TeleForceReply {
+  force_reply: true
+  input_field_placeholder?: string
   selective?: boolean
 }
 

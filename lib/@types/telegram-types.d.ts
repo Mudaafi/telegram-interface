@@ -9,7 +9,23 @@ export interface TelePostOptions {
     message_thread_id?: number;
 }
 export declare type TeleChatAction = 'typing' | 'upload_photo' | 'record_video' | 'upload_video' | 'record_voice' | 'upload_voice' | 'upload_document' | 'choose_sticker' | 'find_location' | 'record_video_note' | 'upload_video_note';
-export declare type TeleReplyMarkup = TeleInlineKeyboard | TeleReplyKeyboard;
+export declare type TeleReplyMarkup = TeleInlineKeyboard | TeleReplyKeyboard | TeleForceReply;
+export interface TeleWebhookOptions {
+    max_connections?: number;
+    allowed_updates?: string[];
+    drop_pending_updates?: boolean;
+    ip_address?: string;
+}
+export interface TeleWebhookInfo {
+    url: string;
+    has_custom_certificate: boolean;
+    pending_update_count: number;
+    ip_address?: string;
+    last_error_date?: number;
+    last_error_message?: string;
+    max_connections?: number;
+    allowed_updates?: string[];
+}
 export interface TeleResponse {
     ok: boolean;
     result: {
@@ -43,6 +59,7 @@ export interface TeleCallbackQuery {
 }
 export interface TeleMessage {
     message_id: number;
+    message_thread_id?: number;
     from?: TeleUser;
     sender_chat?: TeleChat;
     date: number;
@@ -159,6 +176,11 @@ export interface TeleReplyKeyboard {
     keyboard: Array<Array<TeleKeyboardButton>>;
     resize_keyboard?: boolean;
     one_time_keyboard?: boolean;
+    selective?: boolean;
+}
+export interface TeleForceReply {
+    force_reply: true;
+    input_field_placeholder?: string;
     selective?: boolean;
 }
 export interface TeleKeyboardButton {

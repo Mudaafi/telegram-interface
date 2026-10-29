@@ -15,6 +15,9 @@ import type {
   TeleShippingOption,
   TeleReaction,
   TeleChatAction,
+  TeleUpdate,
+  TeleWebhookInfo,
+  TeleWebhookOptions,
 } from './@types/telegram-types'
 import { convertError } from './@types/telegram-types'
 import {
@@ -273,6 +276,32 @@ export class Telegram {
       reaction,
       isBig,
     )
+  }
+
+  /**
+   * Updates waiting for the bot, when no webhook is set (Telegram refuses this while one is)
+   * @param offset One more than the last update_id handled; earlier updates are then dropped
+   * @param timeout Seconds to wait for an update when there is none (long polling)
+   */
+  async getUpdates(offset?: number, timeout = 0, allowed_updates?: string[]) {
+    return getUpdates(this.bot_key, offset, timeout, allowed_updates)
+  }
+
+  async getWebhookInfo() {
+    return getWebhookInfo(this.bot_key)
+  }
+
+  /**
+   * Has Telegram send every update to this url
+   * @param secret_token Sent back in the X-Telegram-Bot-Api-Secret-Token header of each update
+   */
+  async setWebhook(url: string, secret_token?: string, options: TeleWebhookOptions = {}) {
+    return setWebhook(this.bot_key, url, secret_token, options)
+  }
+
+  /** Stops sending updates to the webhook, so getUpdates can read them. Pending ones are kept unless dropped */
+  async deleteWebhook(drop_pending_updates = false) {
+    return deleteWebhook(this.bot_key, drop_pending_updates)
   }
 
   // Class Wrapper Functions for completion
@@ -884,6 +913,59 @@ export async function sendMessageDraft(
       .catch((err) => {
         reject(convertError(err))
       })
+  })
+}
+
+function botApiCall<T>(bot_key: string, method: string, body: object) {
+  return new Promise<T>((resolve, reject) => {
+    axios
+      .post<{ ok: boolean; result: T }>(`${TELE_API}${bot_key}/${method}`, body)
+      .then((res) => {
+        if (LOGGER == 'VERBOSE') console.log(`${method} done`)
+        resolve(res.data.result)
+      })
+      .catch((err) => {
+        reject(convertError(err))
+      })
+  })
+}
+
+export async function getUpdates(
+  bot_key: string,
+  offset?: number,
+  timeout = 0,
+  allowed_updates?: string[],
+) {
+  return botApiCall<TeleUpdate[]>(bot_key, 'getUpdates', {
+    offset,
+    timeout,
+    allowed_updates,
+  })
+}
+
+export async function getWebhookInfo(bot_key: string) {
+  return botApiCall<TeleWebhookInfo>(bot_key, 'getWebhookInfo', {})
+}
+
+export async function setWebhook(
+  bot_key: string,
+  url: string,
+  secret_token?: string,
+  options: TeleWebhookOptions = {},
+) {
+  return botApiCall<boolean>(bot_key, 'setWebhook', {
+    url,
+    secret_token,
+    ...options,
+  })
+}
+
+export async function deleteWebhook(
+  bot_key: string,
+  drop_pending_updates = false,
+) {
+  return botApiCall<boolean>(bot_key, 'deleteWebhook', {
+    drop_pending_updates,
   })
 }
 
